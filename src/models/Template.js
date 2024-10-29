@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-const sequelize = require("@/config/database");
+import sequelize from "../config/database.js";
 
 // 定义 Template 模型
 const Template = sequelize.define("Template", {
@@ -50,4 +50,4 @@ QuestionOption.belongsTo(Question, { foreignKey: "questionId" });
 Option.hasMany(QuestionOption, { foreignKey: "optionId", onDelete: "CASCADE" });
 QuestionOption.belongsTo(Option, { foreignKey: "optionId" });
 
-export default Template;
+export { Template, Option, Question, QuestionOption };
