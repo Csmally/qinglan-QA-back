@@ -9,6 +9,7 @@ const Template = sequelize.define("Template", {
   },
   desc: {
     type: DataTypes.TEXT,
+    allowNull: false,
   },
 });
 
@@ -20,6 +21,7 @@ const Option = sequelize.define("Option", {
   },
   showText: {
     type: DataTypes.STRING,
+    allowNull: false,
   },
 });
 
@@ -34,9 +36,32 @@ const Question = sequelize.define("Question", {
 // 定义 QuestionOption 模型
 const QuestionOption = sequelize.define("QuestionOption", {});
 
+// 定义 GroupOption 模型
+const GroupOption = sequelize.define("GroupOption", {
+  value: {
+    type: DataTypes.STRING, // 更新为字符串类型
+    allowNull: false,
+  },
+  showText: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+});
+
 // 设置关系
 Template.hasMany(Option, { foreignKey: "templateId", onDelete: "CASCADE" });
 Option.belongsTo(Template, { foreignKey: "templateId" });
+Template.hasMany(GroupOption, {
+  foreignKey: "templateId",
+  onDelete: "CASCADE",
+});
+GroupOption.belongsTo(Template, { foreignKey: "templateId" });
+
+GroupOption.hasMany(Question, {
+  foreignKey: "groupOptionId",
+  onDelete: "CASCADE",
+});
+Question.belongsTo(GroupOption, { foreignKey: "groupOptionId" });
 
 Template.hasMany(Question, { foreignKey: "templateId", onDelete: "CASCADE" });
 Question.belongsTo(Template, { foreignKey: "templateId" });
@@ -50,4 +75,4 @@ QuestionOption.belongsTo(Question, { foreignKey: "questionId" });
 Option.hasMany(QuestionOption, { foreignKey: "optionId", onDelete: "CASCADE" });
 QuestionOption.belongsTo(Option, { foreignKey: "optionId" });
 
-export { Template, Option, Question, QuestionOption };
+export { Template, Option, Question, QuestionOption, GroupOption };
