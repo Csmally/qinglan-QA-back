@@ -5,8 +5,8 @@ import {
   Question,
   QuestionOption,
   GroupOption,
-} from "../models/index.js";
-import { ToastCode } from "../common/consts/businessCode.js";
+} from "../../models/index.js";
+import { ToastCode } from "../../common/consts/businessCode.js";
 
 const router = new Router();
 
@@ -77,26 +77,6 @@ router.post("/template/add", async (ctx) => {
     ctx.body = {
       message: "模板添加失败",
     };
-  }
-});
-
-// 查询模版
-router.post("/template/search", async (ctx) => {
-  try {
-    const { page, pageSize } = ctx.request.body;
-    const templates = await Template.findAndCountAll({
-      limit: pageSize,
-      offset: (page - 1) * pageSize,
-      // 其他查询条件
-      // where: {},
-      order: [["createdAt", "DESC"]], // 排序条件，例如按创建时间倒序
-    });
-    ctx.body = {
-      total: templates.count,
-      templateList: templates.rows,
-    };
-  } catch (error) {
-    ctx.status = 500;
   }
 });
 

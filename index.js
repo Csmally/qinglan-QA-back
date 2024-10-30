@@ -3,7 +3,7 @@ import Router from "koa-router";
 import bodyParser from "koa-bodyparser";
 import { initDb } from "./src/models/index.js";
 import cors from "@koa/cors";
-import templateRoutes from "./src/routes/templates.js";
+import templateRoutes from "./src/routes/index.js";
 import { formatResponseData } from "./src/common/utils/formatData.js";
 
 const app = new Koa();
