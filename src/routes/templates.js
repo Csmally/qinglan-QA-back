@@ -1,5 +1,11 @@
 import Router from "koa-router";
-import { Template, Option, Question, QuestionOption } from "../models/index.js";
+import {
+  Template,
+  Option,
+  Question,
+  QuestionOption,
+  GroupOption,
+} from "../models/index.js";
 import { ToastCode } from "../common/consts/businessCode.js";
 
 const router = new Router();
@@ -7,11 +13,27 @@ const router = new Router();
 // 添加模板
 router.post("/template/add", async (ctx) => {
   try {
-    const { fileList } = ctx.request.body;
-    for (const fileData of fileList) {
-      const { name, desc, optionsConfigList, questionsList } = fileData;
+    const { templateList } = ctx.request.body;
+    for (const templateData of templateList) {
+      const { name, desc, optionsConfigList, questionsList, groupsConfigList } =
+        templateData;
       // 创建模板
       const template = await Template.create({ name, desc });
+
+      // 批量创建 GroupOption，并返回所有创建的选项数据
+      const createdGroupOptions = await GroupOption.bulkCreate(
+        groupsConfigList.map((option) => ({
+          ...option,
+          templateId: template.id,
+        })),
+        { returning: true }
+      );
+
+      // 将 createdGroupOptions 转换为对象，以便快速查找
+      const groupOptionsMap = createdGroupOptions.reduce((map, groupOption) => {
+        map[groupOption.value] = groupOption.id;
+        return map;
+      }, {});
 
       // 批量创建 Option，并返回所有创建的选项数据
       const createdOptions = await Option.bulkCreate(
@@ -30,9 +52,11 @@ router.post("/template/add", async (ctx) => {
 
       // 创建 Question 和 QuestionOption
       for (const questionData of questionsList) {
-        // 创建 Question
+        // 创建 Question   直接使用 groupOptionsMap 中的 groupOptionId
         const question = await Question.create({
           questionName: questionData.questionName,
+          groupOptionId: groupOptionsMap[questionData.groupBy.value],
+          isJudge: questionData.isJudge,
           templateId: template.id,
         });
 
@@ -53,6 +77,26 @@ router.post("/template/add", async (ctx) => {
     ctx.body = {
       message: "模板添加失败",
     };
+  }
+});
+
+// 查询模版
+router.post("/template/search", async (ctx) => {
+  try {
+    const { page, pageSize } = ctx.request.body;
+    const templates = await Template.findAndCountAll({
+      limit: pageSize,
+      offset: (page - 1) * pageSize,
+      // 其他查询条件
+      // where: {},
+      order: [["createdAt", "DESC"]], // 排序条件，例如按创建时间倒序
+    });
+    ctx.body = {
+      total: templates.count,
+      templateList: templates.rows,
+    };
+  } catch (error) {
+    ctx.status = 500;
   }
 });
 

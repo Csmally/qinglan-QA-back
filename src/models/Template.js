@@ -31,6 +31,10 @@ const Question = sequelize.define("Question", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  isJudge: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+  },
 });
 
 // 定义 QuestionOption 模型
