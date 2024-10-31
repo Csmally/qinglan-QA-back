@@ -8,7 +8,7 @@ import { formatResponseData } from "./src/common/utils/formatData.js";
 
 const app = new Koa();
 const router = new Router({
-  prefix: "/qldev",
+  prefix: "/qldev/api",
 });
 
 // 中间件
