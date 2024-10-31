@@ -1,5 +1,10 @@
 import Router from "koa-router";
-import { Template, GroupOption, Question, QuestionOption } from "../../models/index.js";
+import {
+  Template,
+  GroupOption,
+  Question,
+  QuestionOption,
+} from "../../models/index.js";
 import { Op } from "sequelize";
 
 const router = new Router();
@@ -47,27 +52,31 @@ router.get("/template/search/id", async (ctx) => {
     const { id } = ctx.request.query;
     const template = await Template.findOne({
       where: { id },
-      attributes: ['id', 'name', 'desc'],
+      attributes: ["id", "name", "desc"],
       include: [
         {
           model: GroupOption,
-          attributes: ['id', 'value', 'showText'],
+          attributes: ["id", "value", "showText"],
+          as: "groupOptions",
           include: [
             {
               model: Question,
-              attributes: ['id', 'questionName', 'isJudge'],
+              attributes: ["id", "questionName", "isJudge"],
+              as: "questions",
               include: [
                 {
                   model: QuestionOption,
-                  attributes: ['id', 'value', 'showText'],
+                  attributes: ["id", "value", "showText"],
+                  as: "questionOptions",
                 },
               ],
             },
           ],
         },
-      ]
+      ],
     });
-    ctx.body = template;
+    // ctx.body = template;
+    ctx.body = template ? template.toJSON() : {}; // 转换为普通对象
   } catch (error) {
     ctx.status = 500;
   }

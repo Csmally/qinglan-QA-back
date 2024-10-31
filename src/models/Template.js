@@ -53,16 +53,22 @@ const QuestionOption = sequelize.define("QuestionOption", {
 Template.hasMany(GroupOption, {
   foreignKey: "templateId",
   onDelete: "CASCADE",
+  as: "groupOptions",
 });
 GroupOption.belongsTo(Template, { foreignKey: "templateId" });
 
 GroupOption.hasMany(Question, {
   foreignKey: "groupOptionId",
   onDelete: "CASCADE",
+  as: "questions",
 });
 Question.belongsTo(GroupOption, { foreignKey: "groupOptionId" });
 
-Question.hasMany(QuestionOption, { foreignKey: "questionId", onDelete: "CASCADE" });
+Question.hasMany(QuestionOption, {
+  foreignKey: "questionId",
+  onDelete: "CASCADE",
+  as: "questionOptions",
+});
 QuestionOption.belongsTo(Question, { foreignKey: "questionId" });
 
 export { Template, GroupOption, Question, QuestionOption };
