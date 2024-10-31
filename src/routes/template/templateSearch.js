@@ -1,5 +1,5 @@
 import Router from "koa-router";
-import { Template } from "../../models/index.js";
+import { Template, GroupOption, Question, QuestionOption } from "../../models/index.js";
 import { Op } from "sequelize";
 
 const router = new Router();
@@ -36,6 +36,38 @@ router.get("/template/search/keyword", async (ctx) => {
     ctx.body = {
       templateList,
     };
+  } catch (error) {
+    ctx.status = 500;
+  }
+});
+
+// 通过id查询模版
+router.get("/template/search/id", async (ctx) => {
+  try {
+    const { id } = ctx.request.query;
+    const template = await Template.findOne({
+      where: { id },
+      attributes: ['id', 'name', 'desc'],
+      include: [
+        {
+          model: GroupOption,
+          attributes: ['id', 'value', 'showText'],
+          include: [
+            {
+              model: Question,
+              attributes: ['id', 'questionName', 'isJudge'],
+              include: [
+                {
+                  model: QuestionOption,
+                  attributes: ['id', 'value', 'showText'],
+                },
+              ],
+            },
+          ],
+        },
+      ]
+    });
+    ctx.body = template;
   } catch (error) {
     ctx.status = 500;
   }

@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
 
-// 定义 Template 模型
+// 定义 Template 模型 (模版)
 const Template = sequelize.define("Template", {
   name: {
     type: DataTypes.STRING,
@@ -13,34 +13,7 @@ const Template = sequelize.define("Template", {
   },
 });
 
-// 定义 Option 模型
-const Option = sequelize.define("Option", {
-  value: {
-    type: DataTypes.STRING, // 更新为字符串类型
-    allowNull: false,
-  },
-  showText: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-});
-
-// 定义 Question 模型
-const Question = sequelize.define("Question", {
-  questionName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  isJudge: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-  },
-});
-
-// 定义 QuestionOption 模型
-const QuestionOption = sequelize.define("QuestionOption", {});
-
-// 定义 GroupOption 模型
+// 定义 GroupOption 模型 （题目分类）
 const GroupOption = sequelize.define("GroupOption", {
   value: {
     type: DataTypes.STRING, // 更新为字符串类型
@@ -52,9 +25,31 @@ const GroupOption = sequelize.define("GroupOption", {
   },
 });
 
+// 定义 Question 模型 （题目）
+const Question = sequelize.define("Question", {
+  questionName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  isJudge: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+  },
+});
+
+// 定义 QuestionOption 模型 （选项）
+const QuestionOption = sequelize.define("QuestionOption", {
+  value: {
+    type: DataTypes.STRING, // 更新为字符串类型
+    allowNull: false,
+  },
+  showText: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+});
+
 // 设置关系
-Template.hasMany(Option, { foreignKey: "templateId", onDelete: "CASCADE" });
-Option.belongsTo(Template, { foreignKey: "templateId" });
 Template.hasMany(GroupOption, {
   foreignKey: "templateId",
   onDelete: "CASCADE",
@@ -67,16 +62,7 @@ GroupOption.hasMany(Question, {
 });
 Question.belongsTo(GroupOption, { foreignKey: "groupOptionId" });
 
-Template.hasMany(Question, { foreignKey: "templateId", onDelete: "CASCADE" });
-Question.belongsTo(Template, { foreignKey: "templateId" });
-
-Question.hasMany(QuestionOption, {
-  foreignKey: "questionId",
-  onDelete: "CASCADE",
-});
+Question.hasMany(QuestionOption, { foreignKey: "questionId", onDelete: "CASCADE" });
 QuestionOption.belongsTo(Question, { foreignKey: "questionId" });
 
-Option.hasMany(QuestionOption, { foreignKey: "optionId", onDelete: "CASCADE" });
-QuestionOption.belongsTo(Option, { foreignKey: "optionId" });
-
-export { Template, Option, Question, QuestionOption, GroupOption };
+export { Template, GroupOption, Question, QuestionOption };
