@@ -8,7 +8,7 @@ import { formatResponseData } from "./src/common/utils/formatData.js";
 
 const app = new Koa();
 const router = new Router({
-  prefix: "/qldev/api",
+  prefix: "/ql/api",
 });
 
 // 中间件
@@ -24,6 +24,6 @@ router.use(templateRoutes.routes()).use(router.allowedMethods());
 
 app.use(router.routes()).use(router.allowedMethods());
 
-app.listen(3000, () => {
-  console.log("Server is running on http://localhost:3000");
-});
+const isProd = process.env.NODE_ENV === 'production' ? true : false;
+const port = isProd ? 8088 : 3000;
+app.listen(port);
