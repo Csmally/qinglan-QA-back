@@ -3,9 +3,19 @@ import { Template, GroupOption, Question, QuestionOption } from "./Template.js";
 import { Customer } from "./Customer.js";
 import { Classes } from "./Classes.js";
 import { Student } from "./Student.js";
+import { AdminUser } from "./AdminUser.js";
 
 export const initDb = async () => {
   await sequelize.sync({ force: false });
 };
 
-export { Template, GroupOption, Question, QuestionOption, Customer, Classes, Student };
+export {
+  Template,
+  GroupOption,
+  Question,
+  QuestionOption,
+  Customer,
+  Classes,
+  Student,
+  AdminUser,
+};

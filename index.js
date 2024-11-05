@@ -6,6 +6,8 @@ import cors from "@koa/cors";
 import businessRoutes from "./src/routes/index.js";
 import formatResponseData from "./src/common/utils/formatData.js";
 import errorHandler from "./src/common/utils/errorHandler.js";
+import SECRET from "./src/config/secret.js";
+import koaJwt from "koa-jwt";
 
 const app = new Koa();
 const router = new Router({
@@ -21,6 +23,9 @@ initDb();
 
 // 错误处理中间件
 app.use(errorHandler);
+
+// 除了登录路由外，其他路由都需要验证
+app.use(koaJwt({ secret: SECRET }).unless({ path: [/^\/ql\/api\/login/] }));
 
 app.use(formatResponseData);
 

@@ -9,6 +9,7 @@ const ToastCode = {
 const BusinessCode = {
   success: 0,
   error: -1,
+  noAuth: 401,
 };
 
 export { ToastCode, BusinessCode };

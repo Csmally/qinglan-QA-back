@@ -15,8 +15,10 @@
   "license": "ISC",
   "dependencies": {
     "@koa/cors": "^5.0.0",
+    "jsonwebtoken": "^9.0.2",
     "koa": "^2.15.3",
     "koa-bodyparser": "^4.4.1",
+    "koa-jwt": "^4.0.4",
     "koa-router": "^13.0.1",
     "mysql2": "^3.11.3",
     "sequelize": "^6.37.5"
