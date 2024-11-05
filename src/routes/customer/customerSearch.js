@@ -1,6 +1,7 @@
 import Router from "koa-router";
 import { Customer } from "../../models/index.js";
 import { Op } from "sequelize";
+import ErrorObj from "../../common/utils/errorObj.js";
 
 const router = new Router();
 
@@ -20,11 +21,11 @@ router.post("/customer/search", async (ctx) => {
       list: list.rows,
     };
   } catch (error) {
-    ctx.status = 500;
+    throw new ErrorObj(error, "添加班级失败");
   }
 });
 
-// 关键字模糊查询模版
+// 关键字模糊查询客户
 router.get("/customer/search/keyword", async (ctx) => {
   try {
     const { keyWord } = ctx.request.query;
@@ -37,7 +38,7 @@ router.get("/customer/search/keyword", async (ctx) => {
       customerList,
     };
   } catch (error) {
-    ctx.status = 500;
+    throw new ErrorObj(error);
   }
 });
 
@@ -51,7 +52,7 @@ router.get("/customer/search/id", async (ctx) => {
     });
     ctx.body = customer ? customer.toJSON() : {}; // 转换为普通对象
   } catch (error) {
-    ctx.status = 500;
+    throw new ErrorObj(error);
   }
 });
 

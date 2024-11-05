@@ -1,5 +1,6 @@
 import Router from "koa-router";
 import { Classes } from "../../models/index.js";
+import ErrorObj from "../../common/utils/errorObj.js";
 
 const router = new Router();
 
@@ -19,7 +20,7 @@ router.post("/class/search", async (ctx) => {
       list: list.rows,
     };
   } catch (error) {
-    ctx.status = 500;
+    throw new ErrorObj(error);
   }
 });
 

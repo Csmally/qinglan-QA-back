@@ -6,6 +6,7 @@ import {
   QuestionOption,
 } from "../../models/index.js";
 import { Op } from "sequelize";
+import ErrorObj from "../../common/utils/errorObj.js";
 
 const router = new Router();
 
@@ -25,7 +26,7 @@ router.post("/template/search", async (ctx) => {
       templateList: templates.rows,
     };
   } catch (error) {
-    ctx.status = 500;
+    throw new ErrorObj(error);
   }
 });
 
@@ -42,7 +43,7 @@ router.get("/template/search/keyword", async (ctx) => {
       templateList,
     };
   } catch (error) {
-    ctx.status = 500;
+    throw new ErrorObj(error);
   }
 });
 
@@ -78,7 +79,7 @@ router.get("/template/search/id", async (ctx) => {
     // ctx.body = template;
     ctx.body = template ? template.toJSON() : {}; // 转换为普通对象
   } catch (error) {
-    ctx.status = 500;
+    throw new ErrorObj(error);
   }
 });
 

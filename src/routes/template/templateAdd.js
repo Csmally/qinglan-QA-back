@@ -7,6 +7,7 @@ import {
 } from "../../models/index.js";
 import { ToastCode } from "../../common/consts/businessCode.js";
 import sequelize from "../../config/database.js";
+import ErrorObj from "../../common/utils/errorObj.js";
 const router = new Router();
 
 // 添加模板
@@ -58,10 +59,7 @@ router.post("/template/add", async (ctx) => {
     };
   } catch (error) {
     await transaction.rollback();
-    ctx.status = 500;
-    ctx.body = {
-      message: "模板添加失败",
-    };
+    throw new ErrorObj(error, "模板添加失败");
   }
 });
 

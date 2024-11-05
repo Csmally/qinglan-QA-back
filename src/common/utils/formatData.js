@@ -26,4 +26,4 @@ const formatResponseData = async (ctx, next) => {
   }
 };
 
-export { formatResponseData };
+export default formatResponseData;

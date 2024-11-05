@@ -1,6 +1,7 @@
 import Router from "koa-router";
 import { Classes } from "../../models/index.js";
 import { ToastCode } from "../../common/consts/businessCode.js";
+import ErrorObj from "../../common/utils/errorObj.js";
 const router = new Router();
 
 // 添加班级
@@ -13,10 +14,7 @@ router.post("/class/add", async (ctx) => {
       toastCode: ToastCode.success,
     };
   } catch (error) {
-    ctx.status = 500;
-    ctx.body = {
-      message: "添加班级失败",
-    };
+    throw new ErrorObj(error, "添加班级失败");
   }
 });
 

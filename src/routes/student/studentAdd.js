@@ -1,6 +1,7 @@
 import Router from "koa-router";
 import { Student } from "../../models/index.js";
 import { ToastCode } from "../../common/consts/businessCode.js";
+import ErrorObj from "../../common/utils/errorObj.js";
 const router = new Router();
 
 // 添加用户
@@ -13,10 +14,7 @@ router.post("/student/add", async (ctx) => {
       toastCode: ToastCode.success,
     };
   } catch (error) {
-    ctx.status = 500;
-    ctx.body = {
-      message: "添加用户失败",
-    };
+    throw new ErrorObj(error, "添加用户失败");
   }
 });
 
