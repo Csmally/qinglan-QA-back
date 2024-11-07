@@ -12,7 +12,7 @@ const errorHandler = async (ctx, next) => {
       success: false,
       code: isNoAuth ? BusinessCode.noAuth : BusinessCode.error,
       toastCode: ToastCode.error,
-      message: isNoAuth ? "请重新登录" : "服务器繁忙，稍后再试",
+      message: isNoAuth ? "请重新登录" : err.message,
       data: null,
     };
   }
