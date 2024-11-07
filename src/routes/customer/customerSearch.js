@@ -50,7 +50,7 @@ router.get("/customer/search/id", async (ctx) => {
       where: { id },
       attributes: ["id", "name", "desc"],
     });
-    ctx.body = customer ? customer.toJSON() : {}; // 转换为普通对象
+    ctx.body = customer.dataValues; // 转换为普通对象
   } catch (error) {
     throw new ErrorObj(error);
   }

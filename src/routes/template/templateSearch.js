@@ -77,7 +77,7 @@ router.get("/template/search/id", async (ctx) => {
       ],
     });
     // ctx.body = template;
-    ctx.body = template ? template.toJSON() : {}; // 转换为普通对象
+    ctx.body = template.dataValues; // 转换为普通对象
   } catch (error) {
     throw new ErrorObj(error);
   }

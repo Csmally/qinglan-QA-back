@@ -1,4 +1,12 @@
-import { Student, Classes, Customer } from "../../../models/index.js";
+import {
+  Student,
+  Classes,
+  Customer,
+  Template,
+  GroupOption,
+  Question,
+  QuestionOption,
+} from "../../../models/index.js";
 
 async function studentUserLogin({
   templateId,
@@ -35,6 +43,32 @@ async function studentUserLogin({
   if (!studentInfo || studentInfo.dataValues.password !== password) {
     return false;
   }
+  const template = await Template.findOne({
+    where: { id: templateId },
+    // attributes: ["id", "name", "desc"],
+    include: [
+      {
+        model: GroupOption,
+        // attributes: ["id", "value", "showText"],
+        as: "groupOptions",
+        include: [
+          {
+            model: Question,
+            // attributes: ["id", "questionName", "isJudge"],
+            as: "questions",
+            include: [
+              {
+                model: QuestionOption,
+                // attributes: ["id", "value", "showText"],
+                as: "questionOptions",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  });
+  studentInfo.dataValues.template = template.dataValues;
   return studentInfo;
 }
 

@@ -17,6 +17,10 @@ const Student = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    sex: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   {
     // 定义复合唯一约束
