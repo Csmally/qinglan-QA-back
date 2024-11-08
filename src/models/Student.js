@@ -30,6 +30,11 @@ const Student = sequelize.define(
         fields: ["account", "classId"],
       },
     ],
+    defaultScope: {
+      attributes: {
+        exclude: ["createdAt", "updatedAt"]
+      }
+    }
   }
 );
 

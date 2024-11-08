@@ -11,6 +11,12 @@ const Template = sequelize.define("Template", {
     type: DataTypes.TEXT,
     allowNull: false,
   },
+}, {
+  defaultScope: {
+    attributes: {
+      exclude: ["createdAt", "updatedAt"]
+    }
+  }
 });
 
 // 定义 GroupOption 模型 （题目分类）
@@ -23,6 +29,12 @@ const GroupOption = sequelize.define("GroupOption", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+}, {
+  defaultScope: {
+    attributes: {
+      exclude: ["createdAt", "updatedAt"]
+    }
+  }
 });
 
 // 定义 Question 模型 （题目）
@@ -34,6 +46,10 @@ const Question = sequelize.define("Question", {
   isJudge: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
+  },
+}, {
+  defaultScope: {
+    attributes: { exclude: ["createdAt", "updatedAt"] },
   },
 });
 
@@ -47,6 +63,12 @@ const QuestionOption = sequelize.define("QuestionOption", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+}, {
+  defaultScope: {
+    attributes: {
+      exclude: ["createdAt", "updatedAt"]
+    }
+  }
 });
 
 // 设置关系

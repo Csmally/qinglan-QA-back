@@ -30,6 +30,9 @@ const Classes = sequelize.define(
         fields: ["grade", "class", "customerId"],
       },
     ],
+    defaultScope: {
+      attributes: { exclude: ["createdAt", "updatedAt"] },
+    },
   }
 );
 

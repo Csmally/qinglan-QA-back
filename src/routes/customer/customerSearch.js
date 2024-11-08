@@ -48,7 +48,6 @@ router.get("/customer/search/id", async (ctx) => {
     const { id } = ctx.request.query;
     const customer = await Customer.findOne({
       where: { id },
-      attributes: ["id", "name", "desc"],
     });
     ctx.body = customer.dataValues; // 转换为普通对象
   } catch (error) {

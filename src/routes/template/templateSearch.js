@@ -53,21 +53,17 @@ router.get("/template/search/id", async (ctx) => {
     const { id } = ctx.request.query;
     const template = await Template.findOne({
       where: { id },
-      attributes: ["id", "name", "desc"],
       include: [
         {
           model: GroupOption,
-          attributes: ["id", "value", "showText"],
           as: "groupOptions",
           include: [
             {
               model: Question,
-              attributes: ["id", "questionName", "isJudge"],
               as: "questions",
               include: [
                 {
                   model: QuestionOption,
-                  attributes: ["id", "value", "showText"],
                   as: "questionOptions",
                 },
               ],

@@ -27,6 +27,10 @@ const AdminUser = sequelize.define("AdminUser", {
     type: DataTypes.STRING,
     allowNull: true,
   },
+},{
+  defaultScope: {
+    attributes: { exclude: ["createdAt", "updatedAt"] },
+  },
 });
 
 export { AdminUser };

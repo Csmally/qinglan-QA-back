@@ -12,6 +12,12 @@ const Customer = sequelize.define("Customer", {
     type: DataTypes.TEXT,
     allowNull: false,
   },
+}, {
+  defaultScope: {
+    attributes: {
+      exclude: ["createdAt", "updatedAt"]
+    }
+  }
 });
 
 Template.hasMany(Customer, { foreignKey: "templateId", onDelete: "CASCADE" });
