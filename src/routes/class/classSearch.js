@@ -7,12 +7,12 @@ const router = new Router();
 // 查询客户
 router.post("/class/search", async (ctx) => {
   try {
-    const { page, pageSize } = ctx.request.body;
+    const { page, pageSize, customerId } = ctx.request.body;
     const list = await Classes.findAndCountAll({
       limit: pageSize,
       offset: (page - 1) * pageSize,
       // 其他查询条件
-      // where: {},
+      where: { customerId },
       order: [["createdAt", "DESC"]], // 排序条件，例如按创建时间倒序
     });
     ctx.body = {
