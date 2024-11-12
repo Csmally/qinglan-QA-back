@@ -8,28 +8,23 @@ import {
   QuestionOption,
 } from "../../../models/index.js";
 
-async function studentUserLogin({
-  templateId,
-  customerId,
-  account,
-  password,
-}) {
+async function studentUserLogin({ templateId, customerId, account, password }) {
   const studentInfo = await Student.findOne({
     where: {
       account,
       customerId,
     },
     attributes: {
-      exclude: ["classId", "customerId", "password"]
+      exclude: ["classId", "customerId"],
     },
     include: [
       {
         model: Classes,
-        as: 'classBelong'
+        as: "classBelong",
       },
       {
         model: Customer,
-        as: 'customerBelong'
+        as: "customerBelong",
       },
     ],
   });

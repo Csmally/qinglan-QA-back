@@ -11,13 +11,8 @@ const router = new Router();
 // 添加用户
 router.post("/login", async (ctx) => {
   try {
-    const {
-      account,
-      password,
-      from,
-      templateId,
-      customerId,
-    } = ctx.request.body;
+    const { account, password, from, templateId, customerId } =
+      ctx.request.body;
     let userInfo;
     // from === 2 toc; from === 1 tob;
     if (from === "2") {
