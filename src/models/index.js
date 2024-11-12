@@ -4,6 +4,8 @@ import { Customer } from "./Customer.js";
 import { Classes } from "./Classes.js";
 import { Student } from "./Student.js";
 import { AdminUser } from "./AdminUser.js";
+import { Answer } from "./Answer.js";
+import { AnswerInfo } from "./AnswerInfo.js";
 
 export const initDb = async () => {
   await sequelize.sync({ force: false });
@@ -18,4 +20,6 @@ export {
   Classes,
   Student,
   AdminUser,
+  Answer,
+  AnswerInfo,
 };
