@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
 import { Classes } from "./Classes.js";
+import { Customer } from "./Customer.js";
 
 const Student = sequelize.define(
   "Student",
@@ -27,7 +28,7 @@ const Student = sequelize.define(
     indexes: [
       {
         unique: true,
-        fields: ["account", "classId"],
+        fields: ["account", "customerId"],
       },
     ],
     defaultScope: {
@@ -38,7 +39,10 @@ const Student = sequelize.define(
   }
 );
 
+Customer.hasMany(Student, { foreignKey: "customerId", onDelete: "CASCADE" });
+Student.belongsTo(Customer, { foreignKey: "customerId", as: 'customerBelong' });
+
 Classes.hasMany(Student, { foreignKey: "classId", onDelete: "CASCADE" });
-Student.belongsTo(Classes, { foreignKey: "classId" });
+Student.belongsTo(Classes, { foreignKey: "classId", as: 'classBelong' });
 
 export { Student };

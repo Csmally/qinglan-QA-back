@@ -17,8 +17,6 @@ router.post("/login", async (ctx) => {
       from,
       templateId,
       customerId,
-      gradeValue,
-      classValue,
     } = ctx.request.body;
     let userInfo;
     // from === 2 toc; from === 1 tob;
@@ -26,8 +24,6 @@ router.post("/login", async (ctx) => {
       const studentUserResult = await studentUserLogin({
         templateId,
         customerId,
-        gradeValue,
-        classValue,
         account,
         password,
       });
