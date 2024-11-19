@@ -20,7 +20,11 @@ const Student = sequelize.define(
     },
     sex: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
+    },
+    age: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
   },
   {
@@ -40,9 +44,9 @@ const Student = sequelize.define(
 );
 
 Customer.hasMany(Student, { foreignKey: "customerId", onDelete: "CASCADE" });
-Student.belongsTo(Customer, { foreignKey: "customerId", as: 'customerBelong' });
+Student.belongsTo(Customer, { foreignKey: "customerId", as: "customerBelong" });
 
 Classes.hasMany(Student, { foreignKey: "classId", onDelete: "CASCADE" });
-Student.belongsTo(Classes, { foreignKey: "classId", as: 'classBelong' });
+Student.belongsTo(Classes, { foreignKey: "classId", as: "classBelong" });
 
 export { Student };

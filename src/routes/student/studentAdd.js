@@ -18,4 +18,18 @@ router.post("/student/add", async (ctx) => {
   }
 });
 
+// 批量添加用户
+router.post("/student/addBatch", async (ctx) => {
+  try {
+    const { students } = ctx.request.body;
+    await Student.bulkCreate(students);
+    ctx.body = {
+      message: "添加用户成功",
+      toastCode: ToastCode.success,
+    };
+  } catch (error) {
+    throw new ErrorObj(error, "添加用户失败");
+  }
+});
+
 export default router;
