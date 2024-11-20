@@ -1,5 +1,14 @@
 import Router from "koa-router";
-import { Answer, AnswerInfo, Student, Template, GroupOption, Question, QuestionOption, ValueGroup } from "../../models/index.js";
+import {
+  Answer,
+  AnswerInfo,
+  Student,
+  Template,
+  GroupOption,
+  Question,
+  QuestionOption,
+  ValueGroup,
+} from "../../models/index.js";
 import ErrorObj from "../../common/utils/errorObj.js";
 const router = new Router();
 
@@ -11,17 +20,17 @@ router.post("/answer/searchByClass", async (ctx) => {
       where: {
         classId,
       },
-      attributes: [],
+      attributes: ["answerCount", "updatedAt"],
       include: [
         {
           model: AnswerInfo,
           as: "answers",
-          attributes: ["questionId", "questionAnswerId"]
+          attributes: ["questionId", "questionAnswerId"],
         },
         {
           model: Student,
           as: "student",
-          attributes: ["account", "name", "sex", "age"]
+          attributes: ["account", "name", "sex", "age"],
         },
       ],
     });
@@ -38,7 +47,7 @@ router.post("/answer/searchByClass", async (ctx) => {
             include: [
               {
                 model: ValueGroup,
-                as: "valueGroups"
+                as: "valueGroups",
               },
               {
                 model: Question,
@@ -48,7 +57,7 @@ router.post("/answer/searchByClass", async (ctx) => {
                   {
                     model: QuestionOption,
                     as: "questionOptions",
-                    attributes: ["id", "value"]
+                    attributes: ["id", "value"],
                   },
                 ],
               },
