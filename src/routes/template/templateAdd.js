@@ -4,6 +4,7 @@ import {
   GroupOption,
   Question,
   QuestionOption,
+  ValueGroup,
 } from "../../models/index.js";
 import { ToastCode } from "../../common/consts/businessCode.js";
 import sequelize from "../../config/database.js";
@@ -35,6 +36,10 @@ router.post("/template/add", async (ctx) => {
               model: GroupOption,
               as: "groupOptions",
               include: [
+                {
+                  model: ValueGroup,
+                  as: 'valueGroups',
+                },
                 {
                   model: Question,
                   as: "questions",

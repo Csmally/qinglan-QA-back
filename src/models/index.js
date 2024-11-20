@@ -1,5 +1,5 @@
 import sequelize from "../config/database.js";
-import { Template, GroupOption, Question, QuestionOption } from "./Template.js";
+import { Template, GroupOption, Question, QuestionOption, ValueGroup } from "./Template.js";
 import { Customer } from "./Customer.js";
 import { Classes } from "./Classes.js";
 import { Student } from "./Student.js";
@@ -22,4 +22,5 @@ export {
   AdminUser,
   Answer,
   AnswerInfo,
+  ValueGroup,
 };

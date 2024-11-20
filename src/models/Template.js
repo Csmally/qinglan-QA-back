@@ -21,8 +21,8 @@ const Template = sequelize.define("Template", {
 
 // 定义 GroupOption 模型 （题目分类）
 const GroupOption = sequelize.define("GroupOption", {
-  value: {
-    type: DataTypes.STRING, // 更新为字符串类型
+  shortName: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
   showText: {
@@ -43,10 +43,6 @@ const Question = sequelize.define("Question", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  isJudge: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-  },
 }, {
   defaultScope: {
     attributes: { exclude: ["createdAt", "updatedAt"] },
@@ -56,7 +52,7 @@ const Question = sequelize.define("Question", {
 // 定义 QuestionOption 模型 （选项）
 const QuestionOption = sequelize.define("QuestionOption", {
   value: {
-    type: DataTypes.STRING, // 更新为字符串类型
+    type: DataTypes.INTEGER, // 更新为字符串类型
     allowNull: false,
   },
   showText: {
@@ -70,6 +66,32 @@ const QuestionOption = sequelize.define("QuestionOption", {
     }
   }
 });
+
+// 定义分组评分规则
+const ValueGroup = sequelize.define("ValueGroup", {
+  minValue: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  maxValue: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  valueDesc: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  valueSug: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  }
+}, {
+  defaultScope: {
+    attributes: {
+      exclude: ["createdAt", "updatedAt"]
+    }
+  }
+})
 
 // 设置关系
 Template.hasMany(GroupOption, {
@@ -86,6 +108,13 @@ GroupOption.hasMany(Question, {
 });
 Question.belongsTo(GroupOption, { foreignKey: "groupOptionId" });
 
+GroupOption.hasMany(ValueGroup, {
+  foreignKey: "groupOptionId",
+  onDelete: "CASCADE",
+  as: "valueGroups",
+});
+ValueGroup.belongsTo(GroupOption, { foreignKey: "groupOptionId" });
+
 Question.hasMany(QuestionOption, {
   foreignKey: "questionId",
   onDelete: "CASCADE",
@@ -93,4 +122,4 @@ Question.hasMany(QuestionOption, {
 });
 QuestionOption.belongsTo(Question, { foreignKey: "questionId" });
 
-export { Template, GroupOption, Question, QuestionOption };
+export { Template, GroupOption, Question, QuestionOption, ValueGroup };
