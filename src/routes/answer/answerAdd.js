@@ -12,10 +12,12 @@ router.post("/addAnswer/add", async (ctx) => {
     const { templateId, customerId, classId, studentId, answers } =
       ctx.request.body;
     const oldAnswer = await Answer.findOne({
-      templateId,
-      customerId,
-      classId,
-      studentId,
+      where: {
+        templateId,
+        customerId,
+        classId,
+        studentId,
+      }
     });
     if (oldAnswer?.dataValues?.answerCount > 4) {
       throw new ErrorObj(null, "超过最大提交次数");

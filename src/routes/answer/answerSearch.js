@@ -1,32 +1,63 @@
 import Router from "koa-router";
-import { Answer, AnswerInfo, Classes, Student } from "../../models/index.js";
+import { Answer, AnswerInfo, Student, Template, GroupOption, Question, QuestionOption, ValueGroup } from "../../models/index.js";
 import ErrorObj from "../../common/utils/errorObj.js";
 const router = new Router();
 
 // 添加班级
 router.post("/answer/searchByClass", async (ctx) => {
   try {
-    const { classId } = ctx.request.body;
+    const { classId, templateId } = ctx.request.body;
     const list = await Answer.findAll({
       where: {
         classId,
       },
+      attributes: [],
       include: [
         {
           model: AnswerInfo,
           as: "answers",
-        },
-        {
-          model: Classes,
-          as: "classInfo",
+          attributes: ["questionId", "questionAnswerId"]
         },
         {
           model: Student,
           as: "student",
+          attributes: ["account", "name", "sex", "age"]
         },
       ],
     });
-    ctx.body = { list };
+    let template;
+    if (list.length === 0) {
+      template = null;
+    } else {
+      template = await Template.findOne({
+        where: { id: templateId },
+        include: [
+          {
+            model: GroupOption,
+            as: "groupOptions",
+            include: [
+              {
+                model: ValueGroup,
+                as: "valueGroups"
+              },
+              {
+                model: Question,
+                as: "questions",
+                attributes: ["id"],
+                include: [
+                  {
+                    model: QuestionOption,
+                    as: "questionOptions",
+                    attributes: ["id", "value"]
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+    }
+    ctx.body = { list, template };
   } catch (error) {
     throw new ErrorObj(error, "下载失败");
   }
