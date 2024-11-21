@@ -18,44 +18,31 @@ router.post("/template/add", async (ctx) => {
   try {
     const { templateList } = ctx.request.body;
     for (const templateData of templateList) {
-      await Template.create(
-        {
-          name: templateData.name,
-          desc: templateData.desc,
-          groupOptions: templateData.groupOptions.map((group) => ({
-            ...group,
-            questions: group.questions.map((question) => ({
-              ...question,
-              questionOptions: question.questionOptions,
-            })),
-          })),
-        },
-        {
-          include: [
-            {
-              model: GroupOption,
-              as: "groupOptions",
-              include: [
-                {
-                  model: ValueGroup,
-                  as: 'valueGroups',
-                },
-                {
-                  model: Question,
-                  as: "questions",
-                  include: [
-                    {
-                      model: QuestionOption,
-                      as: "questionOptions",
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-          transaction,
-        }
-      );
+      await Template.create(templateData, {
+        include: [
+          {
+            model: GroupOption,
+            as: "groupOptions",
+            include: [
+              {
+                model: ValueGroup,
+                as: "valueGroups",
+              },
+              {
+                model: Question,
+                as: "questions",
+                include: [
+                  {
+                    model: QuestionOption,
+                    as: "questionOptions",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        transaction,
+      });
     }
     await transaction.commit();
     ctx.body = {
