@@ -5,7 +5,7 @@ const AdminUser = sequelize.define(
   "AdminUser",
   {
     account: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(191),
       allowNull: false,
       unique: true, // 设置唯一
     },

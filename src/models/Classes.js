@@ -6,7 +6,7 @@ const Classes = sequelize.define(
   "Classes",
   {
     grade: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(191),
       allowNull: false,
     },
     gradeText: {
@@ -14,7 +14,7 @@ const Classes = sequelize.define(
       allowNull: false,
     },
     class: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(191),
       allowNull: false,
     },
     classText: {

@@ -11,7 +11,7 @@ const Student = sequelize.define(
       allowNull: false,
     },
     account: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(191),
       allowNull: false,
     },
     password: {

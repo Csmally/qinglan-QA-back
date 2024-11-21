@@ -5,6 +5,7 @@ import classRoutes from "./class/index.js";
 import studentRoutes from "./student/index.js";
 import loginRoutes from "./login/inddex.js";
 import answerRoutes from "./answer/index.js";
+import userRoutes from "./user/index.js";
 
 const router = new Router();
 
@@ -14,5 +15,6 @@ router.use(customerRoutes.routes()).use(router.allowedMethods());
 router.use(classRoutes.routes()).use(router.allowedMethods());
 router.use(studentRoutes.routes()).use(router.allowedMethods());
 router.use(answerRoutes.routes()).use(router.allowedMethods());
+router.use(userRoutes.routes()).use(router.allowedMethods());
 
 export default router;
