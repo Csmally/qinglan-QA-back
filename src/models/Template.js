@@ -78,11 +78,11 @@ const ValueGroup = sequelize.define("ValueGroup", {
     allowNull: false,
   },
   valueDesc: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false,
   },
   valueSug: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false,
   }
 }, {
